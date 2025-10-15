@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DigitalMindset AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-dark min-h-screen font-poppins">
+
+  <div id="tokenModal" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
+    <div class="bg-dark-card border border-accent-glow p-8 rounded-2xl shadow-glow max-w-md w-full mx-4">
+      <h2 class="text-2xl font-bold text-white mb-2">Welcome to DigitalMindset AI</h2>
+      <p class="text-gray-400 mb-6">Enter your access token to continue</p>
+      <input
+        type="text"
+        id="tokenInput"
+        placeholder="Enter token (e.g., DM-2025-001)"
+        class="w-full bg-dark border border-gray-700 text-white px-4 py-3 rounded-lg focus:outline-none focus:border-accent mb-4"
+      >
+      <button
+        id="verifyTokenBtn"
+        class="w-full bg-accent hover:bg-accent-bright text-dark font-semibold py-3 rounded-lg transition-all duration-300 glow-button"
+      >
+        Verify Token
+      </button>
+      <p id="tokenError" class="text-red-500 text-sm mt-3 hidden"></p>
+    </div>
+  </div>
+
+  <div id="passwordModal" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 hidden">
+    <div class="bg-dark-card border border-accent-glow p-8 rounded-2xl shadow-glow max-w-md w-full mx-4">
+      <h2 class="text-2xl font-bold text-white mb-2">Master Access</h2>
+      <p class="text-gray-400 mb-6">Enter admin password</p>
+      <input
+        type="password"
+        id="passwordInput"
+        placeholder="Enter password"
+        class="w-full bg-dark border border-gray-700 text-white px-4 py-3 rounded-lg focus:outline-none focus:border-accent mb-4"
+      >
+      <button
+        id="verifyPasswordBtn"
+        class="w-full bg-accent hover:bg-accent-bright text-dark font-semibold py-3 rounded-lg transition-all duration-300 glow-button"
+      >
+        Access Admin Console
+      </button>
+      <p id="passwordError" class="text-red-500 text-sm mt-3 hidden"></p>
+    </div>
+  </div>
+
+  <div id="mainContent" class="hidden">
+    <header class="border-b border-gray-800 bg-dark-card backdrop-blur-sm sticky top-0 z-40">
+      <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-accent">DigitalMindset AI</h1>
+        <button id="logoutBtn" class="text-gray-400 hover:text-white transition-colors">
+          Logout
+        </button>
+      </div>
+    </header>
+
+    <div id="dashboardView" class="container mx-auto px-6 py-16">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-white mb-4">Transform Your Digital Product Ideas</h2>
+        <p class="text-gray-400 text-lg">Choose a mode to get started</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div class="mode-card bg-dark-card border border-gray-800 rounded-2xl p-8 hover:border-accent transition-all duration-300 cursor-pointer" data-mode="synthesise">
+          <div class="w-16 h-16 bg-accent bg-opacity-20 rounded-full flex items-center justify-center mb-6">
+            <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-white mb-3">Synthesise Mode</h3>
+          <p class="text-gray-400">Create complete digital products and eBooks with AI-powered content generation</p>
+        </div>
+
+        <div class="mode-card bg-dark-card border border-gray-800 rounded-2xl p-8 hover:border-accent transition-all duration-300 cursor-pointer" data-mode="ghostwriter">
+          <div class="w-16 h-16 bg-accent bg-opacity-20 rounded-full flex items-center justify-center mb-6">
+            <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-white mb-3">Ghostwriter Mode</h3>
+          <p class="text-gray-400">Generate sales pages, email sequences, and marketing content to monetize your products</p>
+        </div>
+
+        <div class="mode-card bg-dark-card border border-gray-800 rounded-2xl p-8 hover:border-accent transition-all duration-300 cursor-pointer" data-mode="mentor">
+          <div class="w-16 h-16 bg-accent bg-opacity-20 rounded-full flex items-center justify-center mb-6">
+            <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-white mb-3">Mentor Mode</h3>
+          <p class="text-gray-400">Get personalized business coaching and strategic guidance for growing your digital empire</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="synthesiseView" class="container mx-auto px-6 py-8 hidden">
+      <div class="max-w-4xl mx-auto">
+        <button id="backFromSynthesise" class="text-accent hover:text-accent-bright mb-6 flex items-center gap-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+          </svg>
+          Back to Dashboard
+        </button>
+
+        <h2 class="text-3xl font-bold text-white mb-2">Synthesise Mode</h2>
+        <p class="text-gray-400 mb-8">Create your digital product from scratch</p>
+
+        <div id="synthesiseStart" class="text-center py-16">
+          <button id="beginSynthesise" class="bg-accent hover:bg-accent-bright text-dark font-semibold px-8 py-4 rounded-lg transition-all duration-300 glow-button text-lg">
+            Begin Product Creation
+          </button>
+        </div>
+
+        <div id="nicheSelection" class="hidden">
+          <div class="flex justify-between items-center mb-6">
+            <h3 class="text-xl font-semibold text-white">Select Your Niche</h3>
+            <button id="regenerateNiches" class="text-accent hover:text-accent-bright flex items-center gap-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+              </svg>
+              Regenerate Options
+            </button>
+          </div>
+          <div id="nichesList" class="space-y-3"></div>
+        </div>
+
+        <div id="productGeneration" class="hidden">
+          <div class="bg-dark-card border border-gray-800 rounded-2xl p-6 mb-6">
+            <h3 class="text-xl font-semibold text-white mb-2" id="productTitle"></h3>
+            <p class="text-gray-400" id="productNiche"></p>
+          </div>
+
+          <div id="tableOfContents" class="space-y-3"></div>
+
+          <div id="generationComplete" class="hidden mt-8 text-center">
+            <div class="bg-dark-card border border-accent rounded-2xl p-8 mb-6">
+              <svg class="w-16 h-16 text-accent mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <h3 class="text-2xl font-bold text-white mb-2">Product Complete!</h3>
+              <p class="text-gray-400">Your digital product has been generated successfully</p>
+            </div>
+            <div class="flex gap-4 justify-center">
+              <button id="goToGhostwriter" class="bg-accent hover:bg-accent-bright text-dark font-semibold px-6 py-3 rounded-lg transition-all duration-300">
+                Go to Ghostwriter Mode
+              </button>
+              <button id="goToMentor" class="bg-gray-700 hover:bg-gray-600 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-300">
+                Go to Mentor Mode
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="ghostwriterView" class="container mx-auto px-6 py-8 hidden">
+      <div class="max-w-4xl mx-auto">
+        <button id="backFromGhostwriter" class="text-accent hover:text-accent-bright mb-6 flex items-center gap-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+          </svg>
+          Back to Dashboard
+        </button>
+
+        <h2 class="text-3xl font-bold text-white mb-2">Ghostwriter Mode</h2>
+        <p class="text-gray-400 mb-8">Transform your product into a profitable business</p>
+
+        <div id="ghostwriterNoProduct" class="text-center py-16 hidden">
+          <p class="text-gray-400 mb-4">No product found. Create a product in Synthesise Mode first.</p>
+          <button id="goToSynthesiseFromGhostwriter" class="bg-accent hover:bg-accent-bright text-dark font-semibold px-6 py-3 rounded-lg transition-all duration-300">
+            Go to Synthesise Mode
+          </button>
+        </div>
+
+        <div id="ghostwriterContent">
+          <div class="grid md:grid-cols-2 gap-4 mb-8">
+            <button class="asset-btn bg-dark-card border border-gray-800 hover:border-accent rounded-xl p-6 text-left transition-all duration-300" data-asset="salesPage">
+              <h3 class="text-lg font-semibold text-white mb-2">Sales Page</h3>
+              <p class="text-gray-400 text-sm">Generate a high-converting long-form sales page</p>
+            </button>
+            <button class="asset-btn bg-dark-card border border-gray-800 hover:border-accent rounded-xl p-6 text-left transition-all duration-300" data-asset="emailSequence">
+              <h3 class="text-lg font-semibold text-white mb-2">Email Sequence</h3>
+              <p class="text-gray-400 text-sm">Create a 7-email launch campaign</p>
+            </button>
+            <button class="asset-btn bg-dark-card border border-gray-800 hover:border-accent rounded-xl p-6 text-left transition-all duration-300" data-asset="videoScripts">
+              <h3 class="text-lg font-semibold text-white mb-2">Video Scripts</h3>
+              <p class="text-gray-400 text-sm">Get 3 short promotional video scripts</p>
+            </button>
+            <button class="asset-btn bg-dark-card border border-gray-800 hover:border-accent rounded-xl p-6 text-left transition-all duration-300" data-asset="socialContent">
+              <h3 class="text-lg font-semibold text-white mb-2">Social Content</h3>
+              <p class="text-gray-400 text-sm">Generate captions and Twitter threads</p>
+            </button>
+          </div>
+
+          <div id="assetOutput" class="hidden">
+            <div class="bg-dark-card border border-gray-800 rounded-2xl p-6">
+              <h3 class="text-xl font-semibold text-white mb-4" id="assetTitle"></h3>
+              <div id="assetContent" class="text-gray-300 whitespace-pre-wrap"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="mentorView" class="container mx-auto px-6 py-8 hidden">
+      <div class="max-w-4xl mx-auto">
+        <button id="backFromMentor" class="text-accent hover:text-accent-bright mb-6 flex items-center gap-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+          </svg>
+          Back to Dashboard
+        </button>
+
+        <h2 class="text-3xl font-bold text-white mb-2">Mentor Mode</h2>
+        <p class="text-gray-400 mb-8">Your personal business coach</p>
+
+        <div class="mb-6">
+          <button id="generate90DayPlan" class="bg-accent hover:bg-accent-bright text-dark font-semibold px-6 py-3 rounded-lg transition-all duration-300">
+            Generate 90-Day Plan
+          </button>
+        </div>
+
+        <div id="chatContainer" class="bg-dark-card border border-gray-800 rounded-2xl p-6 mb-4 h-96 overflow-y-auto">
+          <div id="chatMessages" class="space-y-4"></div>
+        </div>
+
+        <div class="flex gap-3">
+          <input
+            type="text"
+            id="mentorInput"
+            placeholder="Ask your mentor anything..."
+            class="flex-1 bg-dark-card border border-gray-700 text-white px-4 py-3 rounded-lg focus:outline-none focus:border-accent"
+          >
+          <button id="sendMentorMessage" class="bg-accent hover:bg-accent-bright text-dark font-semibold px-6 py-3 rounded-lg transition-all duration-300">
+            Send
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="loadingOverlay" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 hidden">
+    <div class="text-center">
+      <div class="loader mb-4"></div>
+      <p class="text-white text-lg" id="loadingText">Processing...</p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
